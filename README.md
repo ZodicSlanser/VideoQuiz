@@ -81,7 +81,7 @@ eg.
 ```javascript
 const quizData = [
     {
-        seconds: 10, //in seconds
+        seconds: 10, //The time at which the quiz should pop up in seconds
         question: "Which subject's project is Saif explaining?",
         options: ["Compiler", "OS", "System Analysis", "Embedded Systems"],
         correctAnswer: 0 //index of the correct answer in options array
