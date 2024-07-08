@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class User extends Model
+class Video extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'info'];
+    protected $fillable = ['path'];
 
-    public function answers()
+    public function quizQuestions()
     {
-        return $this->hasMany(UserAnswer::class);
+        return $this->hasMany(QuizQuestion::class);
     }
 }

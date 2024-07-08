@@ -1,22 +1,36 @@
 <?php
 
 namespace Database\Seeders;
-
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Video;
+use App\Models\User;
+use App\Models\QuizQuestion;
 use Illuminate\Database\Seeder;
+
 
 class DatabaseSeeder extends Seeder
 {
     /**
      * Seed the application's database.
      */
-    public function run(): void
+    public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $video = Video::create(['path' => 'videos/video.mp4']);
+        $user = User::create(['name' => 'John Doe', 'info' => 'Sample user info']);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        QuizQuestion::create([
+            'video_id' => $video->id,
+            'seconds' => 10,
+            'question' => "Which subject's project is Saif explaining?",
+            'options' => json_encode(["Compiler", "OS", "System Analysis", "Embedded Systems"]),
+            'correct_answer' => 0
+        ]);
+
+        QuizQuestion::create([
+            'video_id' => $video->id,
+            'seconds' => 17,
+            'question' => "What was Saif's Academic Number?",
+            'options' => json_encode(["200500", "260300", "200345", "200346"]),
+            'correct_answer' => 3
+        ]);
     }
 }

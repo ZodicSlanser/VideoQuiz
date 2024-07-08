@@ -4,148 +4,159 @@
 
 This project is a Laravel-based web application that plays a video and prompts the user to answer multiple-choice questions (MCQs) at specific times during the video. The user's answers are then saved for further processing.
 
-## Table of Contents
+# Video Quiz Application
 
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Folder Structure](#folder-structure)
-- [Contributing](#contributing)
-- [License](#license)
+## Features
 
-## Prerequisites
+- **Video Management**: Store and manage video paths.
+- **User Management**: Store and manage user information.
+- **Quiz Management**: Store and manage quiz questions associated with videos.
+- **Interactive Quiz**: Display quiz questions at specific times during video playback.
+- **User Answers**: Track and store user answers to quiz questions.
 
-Before you begin, ensure you have met the following requirements:
+## Technologies Used
 
-- [PHP](https://www.php.net/downloads) >= 7.4
-- [Composer](https://getcomposer.org/download/)
-- [Node.js](https://nodejs.org/en/download/) and npm
-- [Laravel](https://laravel.com/docs/8.x/installation) >= 8
+- **Backend**: Laravel
+- **Frontend**: Vue.js
+- **Database**: MySQL (or any other database supported by Laravel)
+- **HTTP Client**: Axios
 
-## Installation
+## Setup Instructions
 
-Follow these steps to install the project:
+### Prerequisites
 
-1. Clone the repository:
+- PHP >= 7.4
+- Composer
+- Node.js & npm
+- MySQL (or other database)
 
-    ```bash
-    git clone https://github.com/your-username/interactive-video-quiz.git
-    cd interactive-video-quiz
-    ```
+### Backend Setup (Laravel)
 
-2. Install PHP dependencies:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ZodicSlanser/video-quiz.git
+   cd video-quiz
+   ```
 
-    ```bash
-    composer install
-    ```
+2. **Install dependencies:**
+   ```bash
+   composer install
+   ```
 
-3. Install JavaScript dependencies:
+3. **Setup environment file:**
+   ```bash
+   cp .env.example .env
+   ```
+   Configure your `.env` file with your database credentials.
 
-    ```bash
-    npm install
-    ```
+4. **Generate application key:**
+   ```bash
+   php artisan key:generate
+   ```
 
-4. Create a copy of the `.env` file:
+5. **Run migrations:**
+   ```bash
+   php artisan migrate
+   ```
 
-    ```bash
-    cp .env.example .env
-    ```
+6. **Seed the database:**
+   ```bash
+   php artisan db:seed
+   ```
 
-5. Generate an application key:
+7. **Start the Laravel development server:**
+   ```bash
+   php artisan serve
+   ```
 
-    ```bash
-    php artisan key:generate
-    ```
+### Frontend Setup (Vue)
 
-6. Compile the assets:
+1. **Navigate to the frontend directory:**
+   ```bash
+   cd video-quiz-frontend
+   ```
 
-    ```bash
-    npm run dev
-    ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-7. Serve the application:
-
-    ```bash
-    php artisan serve
-    ```
-
-    The application will be available at `http://localhost:8000`.
+3. **Run the Vue development server:**
+   ```bash
+   npm run serve
+   ```
 
 ## Usage
 
-1. Place your video file in the `public/videos` directory. The video file should be named `video.mp4`.
+1. **Access the Laravel API:**
+   Open your browser and navigate to `http://localhost:8000/api/videos` to access the video data.
 
-2. Add your questions, options, answers and time in seconds in object array in `public/js/app.js` file.
+2. **Access the Vue frontend:**
+   Open your browser and navigate to `http://localhost:8080` to view the interactive video quiz interface.
 
-eg. 
-```javascript
-const quizData = [
-    {
-        seconds: 10, //in seconds
-        question: "Which subject's project is Saif explaining?",
-        options: ["Compiler", "OS", "System Analysis", "Embedded Systems"],
-        correctAnswer: 0 //index of the correct answer in options array
-    },
-    {
-        seconds: 17,
-        question: "What was Saif's Academic Number?",
-        options: ["200500", "260300", "200345", "200346"],
-        correctAnswer: 3
-    }
-];
+## API Endpoints
+
+- **Videos:**
+  - `GET /api/videos` - Get all videos.
+  - `POST /api/videos` - Create a new video.
+  - `GET /api/videos/{id}` - Get a specific video and its quiz questions.
+  - `PUT /api/videos/{id}` - Update a specific video.
+  - `DELETE /api/videos/{id}` - Delete a specific video.
+
+- **Quiz Questions:**
+  - `GET /api/quiz-questions` - Get all quiz questions.
+  - `POST /api/quiz-questions` - Create a new quiz question.
+  - `GET /api/quiz-questions/{id}` - Get a specific quiz question.
+  - `PUT /api/quiz-questions/{id}` - Update a specific quiz question.
+  - `DELETE /api/quiz-questions/{id}` - Delete a specific quiz question.
+
+- **Users:**
+  - `GET /api/users` - Get all users.
+  - `POST /api/users` - Create a new user.
+  - `GET /api/users/{id}` - Get a specific user.
+  - `PUT /api/users/{id}` - Update a specific user.
+  - `DELETE /api/users/{id}` - Delete a specific user.
+
+- **User Answers:**
+  - `GET /api/user-answers` - Get all user answers.
+  - `POST /api/user-answers` - Create a new user answer.
+  - `GET /api/user-answers/{id}` - Get a specific user answer.
+  - `PUT /api/user-answers/{id}` - Update a specific user answer.
+  - `DELETE /api/user-answers/{id}` - Delete a specific user answer.
+
+## Directory Structure
 
 ```
-3. Do steps 6, 7 from Installation section.
-
-4. Open the application in your web browser at `http://localhost:8000`.
-
-5. The video will start playing, and at specific times, a quiz overlay will appear, prompting the user to answer a multiple-choice question.
-
-6. The user's answer will be saved, and the video will resume playing.
-
-## Folder Structure
-
-Here is an overview of the key files and directories in this project:
-
-```
-project-root/
+video-quiz/
 ├── app/
 │   ├── Http/
-│   │   └── Controllers/
-│   │       └── QuizController.php
-├── public/
-│   ├── css/
-│   │   └── app.css
-│   ├── js/
-│   │   └── app.js
-│   └── videos/
-│       └── video.mp4
-├── resources/
-│   ├── css/
-│   │   └── app.css
-│   ├── js/
-│   │   └── app.js
-│   └── views/
-│       └── quiz.blade.php
+│   │   ├── Controllers/
+│   │   │   ├── VideoController.php
+│   │   │   ├── QuizQuestionController.php
+│   │   │   ├── UserController.php
+│   │   │   ├── UserAnswerController.php
+│   ├── Models/
+│   │   ├── Video.php
+│   │   ├── QuizQuestion.php
+│   │   ├── User.php
+│   │   ├── UserAnswer.php
+├── database/
+│   ├── migrations/
+│   ├── seeders/
+│   │   ├── DatabaseSeeder.php
 ├── routes/
-│   └── web.php
-├── .env.example
+│   ├── api.php
+├── resources/
+│   ├── views/
+├── .env
+├── composer.json
+├── artisan
+video-quiz-frontend/
+├── src/
+│   ├── components/
+│   │   ├── VideoQuiz.vue
+│   ├── App.vue
+│   ├── main.js
+├── public/
 ├── package.json
-├── webpack.mix.js
-└── README.md
 ```
-
-## Contributing
-
-To contribute to this project, follow these steps:
-
-1. Fork this repository.
-2. Create a branch: `git checkout -b feature-branch`.
-3. Make your changes and commit them: `git commit -m 'Add feature'`.
-4. Push to the original branch: `git push origin feature-branch`.
-5. Create a pull request.
-
-Alternatively, see the GitHub documentation on [creating a pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
-
-## License
-
